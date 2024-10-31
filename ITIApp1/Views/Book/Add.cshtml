@@ -1,0 +1,87 @@
+﻿@using ViewModel
+@model AddBookViewModel;
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    
+    List<SelectListItem> sub = ViewData["subject"] as List<SelectListItem>;
+    List<SelectListItem> pub = ViewData["publisher"] as List<SelectListItem>;
+}
+<h1>add new book</h1>
+
+
+<form asp-action="SaveAdd" asp-controller="book" method="post" class="needs-validation" novalidate>
+    <div asp-validation-summary="All" class="alert alert-danger"></div>
+
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label asp-for="Title" ></label>
+            <input asp-for="Title" class="form-control" placeholder="Enter book title" required />
+            <span asp-validation-for="Title" class="text-danger "></span>
+        </div>
+
+        <div class="col-md-6 mb-3">
+            <label asp-for="Isbn" class="form-label"></label>
+            <input asp-for="Isbn" class="form-control" placeholder="Enter ISBN" required />
+            <span asp-validation-for="Isbn" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 mb-3">
+            <label asp-for="Summary" class="form-label"></label>
+            <textarea asp-for="Summary" class="form-control" rows="3" placeholder="Enter a brief summary"></textarea>
+            <span asp-validation-for="Summary" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label asp-for="Notes" class="form-label"></label>
+            <input asp-for="Notes" class="form-control" placeholder="Enter any notes" />
+            <span asp-validation-for="Notes" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <label asp-for="PageCount" class="form-label"></label>
+            <input asp-for="PageCount" class="form-control" placeholder="Pages" type="number" min="1" />
+            <span asp-validation-for="PageCount" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <label asp-for="Price" class="form-label"></label>
+            <input asp-for="Price" class="form-control" placeholder="Price" type="number" step="0.01" />
+            <span asp-validation-for="Price" class="text-danger"></span>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label asp-for="PublicationDate" class="form-label"></label>
+            <input asp-for="PublicationDate" class="form-control" type="date" />
+            <span asp-validation-for="PublicationDate" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <label asp-for="SubjectId" class="form-label"></label>
+            <select asp-for="SubjectId" asp-items="sub" class="form-control" required></select>
+                <option value="">Select Subject</option>
+           
+            <span asp-validation-for="SubjectId" class="text-danger"></span>
+        </div>
+
+        <div class="col-md-3 mb-3">
+            <label asp-for="PublisherId" class="form-label"></label>
+            <select asp-for="PublisherId" asp-items="pub" class="form-control" required></select>
+    <option value="value">text</option>
+
+                <option value="">Select Publisher</option>
+           
+            <span asp-validation-for="PublisherId" class="text-danger"></span>
+        </div>
+    </div>
+
+    <button type="submit" class="btn btn-info">Submit</button>
+</form>
+

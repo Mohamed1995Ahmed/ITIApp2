@@ -1,0 +1,112 @@
+﻿@using Manager
+@using ViewModel
+@model Pagination<List<BookViewModel>>
+@{
+
+    Layout = "_Layout1";
+    List<SelectListItem> sub = ViewData["subject"] as List<SelectListItem>;
+    List<SelectListItem> pub = ViewData["publisher"] as List<SelectListItem>;
+    decimal pagenumbers = Math.Ceiling((decimal)Model.TotalCount / Model.PageSize);
+    int to = Model.TotalCount < Model.PageNumber * Model.PageSize ? Model.TotalCount : Model.PageNumber * Model.PageSize;
+    int from = ((Model.PageNumber - 1) * Model.PageSize) + 1;
+  
+    bool movenext = Model.PageNumber  < pagenumbers;
+    bool movepre =  Model.PageNumber -1 > 0;
+}
+
+<h1>Our Book Collection</h1>
+<form class="row g-3" asp-action="index" asp-controller="book" method="get">
+  <div class="col-md-6">
+    <label for="validationCustom01" class="form-label">Search Text</label>
+        <input type="text" class="form-control" name="searchText" value="@ViewBag.searchtext">
+  </div>
+  <div class="col-md-6">
+    <label for="validationCustom02" class="form-label">Price</label>
+    <input type="text" class="form-control" name="price" value="@ViewBag.price" >
+  </div>
+  <div class="col-md-6">
+    <label  class="form-label">Subject</label>
+        <select type="text" class="form-select" name="subjectId" asp-items="sub" value="@ViewBag.subid">
+            <option>select Subject</option>
+    </select>
+  </div>
+  <div class="col-md-6">
+    <label for="validationCustom04" class="form-label">Publisher</label>
+        <select class="form-select" name="publisherId" asp-items="pub" selected="@ViewBag.pubid" value="@ViewBag.pubid">
+            <option>select publisher</option>
+        </select>
+  </div>
+    <input type="hidden" name="PageNumber" />
+    <div class="col-12">
+        <button class="btn btn-primary" type="submit">filter</button>
+    </div>
+</form>
+<p>your result is @from to @to of @Model.TotalCount</p>
+
+<!-- Book list -->
+<div class="container mt-4">
+    <div class="row">
+        @foreach (var book in Model.DAta)
+        {
+            <div class="col-md-4 mb-4 d-flex align-items-stretch">
+                <div class="card shadow-sm h-100">
+                    <div class="card-header bg-info text-white">
+                        <h5 class="card-title mb-0">@book.Title</h5>
+                        <small class="isbn">ISBN: @book.Isbn</small>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text"><strong>Summary:</strong> @book.Summary</p>
+                        <p class="card-text"><strong>Notes:</strong> @book.Notes ?? "N/A"</p>
+                        <p class="card-text"><strong>Pages:</strong> @book.PageCount</p>
+                        <p class="card-text"><strong>Price:</strong> $@book.Price</p>
+                        <p class="card-text"><strong>Published:</strong> @book.PublicationDate.ToString("MMMM dd, yyyy")</p>
+                    </div>
+                    <div class="card-footer d-flex justify-content-between">
+                        <a asp-action="getdetails" asp-controller="book" asp-route-id="@book.ID" class="btn btn-outline-info btn-sm">See Details</a>
+                        <span class="text-muted">ID: @book.ID</span>
+                    </div>
+                    <div class="card-footer d-flex justify-content-between">    
+                        <a asp-action="delete" asp-controller="book" asp-route-id="@book.ID" class="btn btn-outline-info btn-sm">Delete</a>
+                        <span class="text-muted">ID: @book.ID</span>
+                    </div>
+                    <div class="card-footer d-flex justify-content-between">
+                        <a asp-action="edit" asp-controller="book" asp-route-id="@book.ID" class="btn btn-outline-info btn-sm">Edit</a>
+                        <span class="text-muted">ID: @book.ID</span>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<div class="d-flex justify-content-center align-content-center">
+    @if (movepre)
+    {
+       @*  <a asp-action="index" asp-controller="book" asp-route-PageNumber="@(Model.PageNumber-1 )" class="btn btn-secondary">back</a> *@
+        <button type="button" class="btn btn-secondary" onclick="paginate('back')">Back</button> 
+    }
+    @if (movenext)
+    {
+        @* <a asp-action="index" asp-controller="book" asp-route-PageNumber="@(Model.PageNumber+1 )" class="btn btn-secondary">next</a> *@
+        <button type="button" class="btn btn-secondary" onclick="paginate('next')">Next</button>
+    }
+
+   
+</div>
+ @section script {
+    <script>
+        let form = document.getElementsByTagName("form")[0];
+        function paginate(val){
+            let page = 0;
+            if (val == "back") {
+                page = @Model.PageNumber - 1;
+            }
+            else {
+                page = @Model.PageNumber + 1;
+            }
+            form.PageNumber.value = page;
+            console.log(page);
+            console.log(form);
+            form.submit();
+        }
+    </script>
+}

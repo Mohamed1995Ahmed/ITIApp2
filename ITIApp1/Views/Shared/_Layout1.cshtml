@@ -1,0 +1,111 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewBag.Title - Admin Dashboard</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="~/lib/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+    <!-- FontAwesome for icons -->
+    <link href="~/lib/font-awesome/css/all.min.css" rel="stylesheet" />
+    <!-- Custom CSS -->
+    <link href="~/css/admin.css" rel="stylesheet" />
+
+    <style>
+        /* Sidebar styling */
+    
+    </style>
+</head>
+
+<body>
+    <div id="wrapper">
+        <!-- Sidebar -->
+        <nav id="sidebar">
+            <div class="sidebar-header text-center">
+                <h3>Admin Panel</h3>
+            </div>
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a href="@Url.Action("Index", "Dashboard")" class="nav-link">
+                        <i class="fas fa-home"></i> Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="@Url.Action("Users", "Admin")" class="nav-link">
+                        <i class="fas fa-users"></i> Users
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="@Url.Action("Settings", "Admin")" class="nav-link">
+                        <i class="fas fa-cog"></i> Settings
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="@Url.Action("Reports", "Admin")" class="nav-link">
+                        <i class="fas fa-chart-bar"></i> Reports
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="@Url.Action("Logout", "Account")" class="nav-link">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a asp-action="index" asp-controller="book" class="nav-link"> <i class="fas fa-sign-out-alt"></i> book list</a>
+                   
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Content -->
+        <div id="content-wrapper">
+            <!-- Navbar -->
+            <nav class="navbar navbar-expand-lg navbar-dark">
+                <a class="navbar-brand" href="#">Admin Dashboard</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("Profile", "Admin")">Profile</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("Notifications", "Admin")">Notifications</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="@Url.Action("Logout", "Account")">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+
+            <!-- Main Content -->
+            <div class="container-fluid">
+                <h1 class="mt-4">@ViewBag.Title</h1>
+                <hr />
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        &copy; @DateTime.Now.Year - Admin Dashboard
+    </footer>
+
+    <!-- Scripts -->
+    <script src="~/lib/jquery/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    @await RenderSectionAsync("script", required: false);
+</body>
+
+</html>
+
+
+
